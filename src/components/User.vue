@@ -1,6 +1,7 @@
 <template>
   <div class="col">
-    <div :class="['card', user.isFavorite ? ' border-success' : '']" @dblclick="$emit('toggle-favorites-user', user)">
+    <div :class="['card', user.isFavorite ? 'shadow border-success' : 'shadow-sm']"
+      @dblclick="$emit('toggle-favorites-user', user)">
       <img :src="user.avatar" class="card-img-top" alt="...">
       <div class="card-body">
         <h5 :class="['card-title', user.isFavorite ? ' text-success' : 'text-primary']">{{ user.name }}</h5>
@@ -20,7 +21,7 @@
               user.isFavorite ? 'Remove from Favorite' : 'Add to Favorites'
           }}
         </button>
-        <button @click="$emit('delete-user', user)" class="btn btn-sm btn-outline-danger">Delete</button>
+        <button @click="$emit('delete-user', user)" class="btn btn-sm btn-outline-danger px-3">Delete</button>
       </div>
     </div>
   </div>

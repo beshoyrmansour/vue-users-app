@@ -1,14 +1,32 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <button :class="['btn', 'btn-sm', showAddNewUser ? 'btn-secondary' : 'btn-success']" @click="toggleShowAddNewUser()">
-    {{
-        showAddNewUser ?
-          'Cancel' :
-          'Add New'
-    }}</button>
-  <div class="container mb-5" v-if="showAddNewUser">
-    <AddNewUser @add-new-user="addNewUser" />
-  </div>
+  <nav class="navbar navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img alt="Vue logo" src="./assets/logo.png" width="30">
+      </a>
+      <div>
+        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddNewUser"
+          aria-controls="offcanvasAddNewUser"
+          :class="['btn', 'btn-sm', showAddNewUser ? 'btn-secondary' : 'btn-success']"
+          @click="toggleShowAddNewUser()">{{
+              showAddNewUser ?
+                'Cancel' :
+                'Add New'
+          }}</button>
+        <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasAddNewUser"
+          aria-labelledby="offcanvasAddNewUserLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasAddNewUserLabel">Backdroped with scrolling</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"
+              @click="toggleShowAddNewUser()"></button>
+          </div>
+          <div class="offcanvas-body">
+            <AddNewUser @add-new-user="addNewUser" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
   <Users :favoriteUsers="favoriteUsers" :users="users" @toggle-favorites-user="toggleFavoriteUser($event)"
     @delete-user="deleteUser($event)" />
 
@@ -64,6 +82,7 @@ export default {
       })
       const json = await response.json();
       this.users = [json, ...this.users];
+      toggleShowAddNewUser()
     }
   },
   async created() {
@@ -82,6 +101,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */
   color: #2c3e50;
-  margin-top: 60px;
+  /* margin-top: 60px; */
 }
 </style>
