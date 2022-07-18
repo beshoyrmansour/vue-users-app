@@ -7,9 +7,9 @@
       <div>
         <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddNewUser"
           aria-controls="offcanvasAddNewUser"
-          :class="['btn', 'btn-sm', showAddNewUser ? 'btn-secondary' : 'btn-success']"
-          @click="toggleShowAddNewUser()">{{
-              showAddNewUser ?
+          :class="['btn', 'btn-sm', $store.state.showAddNewUser ? 'btn-secondary' : 'btn-success']"
+          @click="$store.dispatch('toggleShowAddNewUser')">{{
+              $store.state.showAddNewUser ?
                 'Cancel' :
                 'Add New'
           }}</button>
@@ -18,23 +18,26 @@
           <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasAddNewUserLabel">Backdroped with scrolling</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"
-              @click="toggleShowAddNewUser()"></button>
+              @click="$store.dispatch('toggleShowAddNewUser')"></button>
           </div>
           <div class="offcanvas-body">
-            <AddNewUser @add-new-user="addNewUser" />
+            <AddNewUser />
           </div>
         </div>
       </div>
     </div>
   </nav>
-  <Users :favoriteUsers="favoriteUsers" :users="users" @toggle-favorites-user="toggleFavoriteUser($event)"
-    @delete-user="deleteUser($event)" />
+
+  <Users />
 
 </template>
 
 <script>
+import Vuex from 'vuex';
+
 import Users from './components/Users.vue'
 import AddNewUser from './components/AddNewUser.vue'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -43,33 +46,22 @@ export default {
     AddNewUser
   },
   data() {
+
     return {
-      users: [],
       showAddNewUser: false,
-      favoriteUsers: []
     }
   },
+
+  computed: {
+
+    // ...Vuex.mapState({
+    //   test: state => state.test
+    // })
+  },
   methods: {
-
-    toggleFavoriteUser(user) {
-      if (this.favoriteUsers.includes(user.id)) {
-        this.favoriteUsers = this.favoriteUsers.filter(u => u !== user.id)
-      } else {
-        this.favoriteUsers.push(user.id)
-      }
-    },
-    deleteUser(user) {
-      this.users = this.users.filter(u => u.id !== user.id)
-    },
-
-    toggleShowAddNewUser() {
-      this.showAddNewUser = !this.showAddNewUser
-    },
-    async getUsers() {
-      const response = await fetch('https://jsonplaceholder.typicode.com/users')
-      const json = await response.json();
-      return json;
-    },
+    ...mapActions([
+      'fetchUsers'
+    ]),
 
     async addNewUser(user) {
 
@@ -86,8 +78,7 @@ export default {
     }
   },
   async created() {
-    const users = await this.getUsers();
-    this.users = users;
+    await this.fetchUsers();
   },
 
 

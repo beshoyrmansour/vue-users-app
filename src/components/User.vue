@@ -1,7 +1,7 @@
 <template>
   <div class="col">
     <div :class="['card', user.isFavorite ? 'shadow border-success' : 'shadow-sm']"
-      @dblclick="$emit('toggle-favorites-user', user)">
+      @dblclick="$store.dispatch('toggleFavoriteUser', user)">
       <img :src="user.avatar" class="card-img-top" alt="...">
       <div class="card-body">
         <h5 :class="['card-title', user.isFavorite ? ' text-success' : 'text-primary']">{{ user.name }}</h5>
@@ -13,7 +13,7 @@
       </div>
       <div class="card-footer d-flex justify-content-between">
         <!-- <a :href="`/users/${user.id}`" class="btn btn-primary">View</a> -->
-        <button @click="$emit('toggle-favorites-user', user)"
+        <button @click="$store.dispatch('toggleFavoriteUser', user)"
           :class="['btn', 'btn-sm', user.isFavorite ? 'btn-outline-success' : 'btn-success']">
           <i :class="['fa', 'fa-heart', user.isFavorite ? 'fa-solid' : 'fa-regular']"></i>
 
@@ -21,7 +21,7 @@
               user.isFavorite ? 'Remove from Favorite' : 'Add to Favorites'
           }}
         </button>
-        <button @click="$emit('delete-user', user)" class="btn btn-sm btn-outline-danger px-3">Delete</button>
+        <button @click="$store.dispatch('deleteUser', user)" class="btn btn-sm btn-outline-danger px-3">Delete</button>
       </div>
     </div>
   </div>

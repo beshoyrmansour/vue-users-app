@@ -82,15 +82,7 @@ export default {
   },
   methods: {
     submitNewUser() {
-      // this.$store.dispatch('addUser', {
-      //   name: this.name,
-      //   userName: this.userName,
-      //   email: this.email,
-      //   address: this.address,
-      //   phone: this.phone,
-      //   website: this.website
-      // })
-      this.$emit('add-new-user', {
+      this.$store.dispatch('addNewUser', {
         name: this.name,
         userName: this.userName,
         email: this.email,
@@ -98,6 +90,7 @@ export default {
         phone: this.phone,
         website: this.website
       })
+
 
       this.name = ''
       this.userName = ''
