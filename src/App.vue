@@ -87,7 +87,12 @@ export default {
   },
   async created() {
     const users = await this.getUsers();
-    this.users = users;
+    this.users = users.map(user => ({
+      ...user,
+      isFavorite: this.favoriteUsers.includes(user.id),
+      avatar: `https://xsgames.co/randomusers/assets/avatars/${(user.id % 2) ? 'male' : 'female'}/${user.id}.jpg`
+    })
+    );
   },
 
 
